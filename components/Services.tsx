@@ -8,7 +8,7 @@ import { useRef } from "react";
 
 const services = [
   {
-    title: "Film Shoots",
+    title: "FLIM Shoots",
     description: "Large-format cinematic locations with production support.",
     icon: Clapperboard
   },

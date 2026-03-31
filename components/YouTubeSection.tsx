@@ -80,7 +80,7 @@ export default function YouTubeSection() {
 
         <div className="mt-10 overflow-hidden rounded-2xl border border-[#D4AF37]/30 shadow-[0_18px_45px_rgba(0,0,0,0.4)]">
           <iframe
-            title="Gulab Singh Film City Channel"
+            title="Gulab Singh FLIM City Channel"
             src={`https://www.youtube-nocookie.com/embed/${showcaseVideos[0].id}?rel=0&modestbranding=1`}
             className="h-[420px] w-full"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

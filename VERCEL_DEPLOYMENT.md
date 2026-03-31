@@ -13,7 +13,7 @@
 cd /Users/sameerai/FLIM_CITY
 git init
 git add .
-git commit -m "Initial commit: Gulab Singh Film City website"
+git commit -m "Initial commit: Gulab Singh FLIM City website"
 ```
 
 ---
@@ -23,14 +23,14 @@ git commit -m "Initial commit: Gulab Singh Film City website"
 ### Option A: If the repository doesn't exist on GitHub yet
 
 1. Go to https://github.com/new
-2. Create a new repository named `gulab-singh-film-city`
+2. Create a new repository named `gulab-singh-flim-city`
 3. Choose **Private** or **Public** (your preference)
 4. **Do NOT** initialize with README, .gitignore, or license
 
 ### Run these commands:
 
 ```bash
-git remote add origin https://github.com/YOUR_USERNAME/gulab-singh-film-city.git
+git remote add origin https://github.com/YOUR_USERNAME/gulab-singh-flim-city.git
 git branch -M main
 git push -u origin main
 ```
@@ -44,7 +44,7 @@ git push -u origin main
 1. Go to https://vercel.com/dashboard
 2. Click **"Add New..."** → **Project**
 3. Click **"Import Git Repository"**
-4. Paste your GitHub repo URL: `https://github.com/YOUR_USERNAME/gulab-singh-film-city.git`
+4. Paste your GitHub repo URL: `https://github.com/YOUR_USERNAME/gulab-singh-flim-city.git`
 5. Vercel will auto-detect Next.js configuration
 6. Click **"Deploy"**
 
@@ -80,7 +80,7 @@ If you plan to add backend functionality in the future:
 
 ## Step 5: Verify Deployment
 
-1. After deployment completes, you'll get a live URL like: `https://gulab-singh-film-city.vercel.app`
+1. After deployment completes, you'll get a live URL like: `https://gulab-singh-flim-city.vercel.app`
 2. Visit the URL to verify everything is working
 3. Check browser console for any errors
 
@@ -97,7 +97,7 @@ Once connected to GitHub/GitLab/Bitbucket:
 
 ## Custom Domain Setup
 
-If you want to use a custom domain (e.g., `www.gulabsinghfilmcity.com`):
+If you want to use a custom domain (e.g., `www.gulabsinghflimcity.com`):
 
 1. **In Vercel Dashboard:**
    - Go to your project → **Settings** → **Domains**

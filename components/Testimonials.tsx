@@ -7,7 +7,7 @@ import Image from "next/image";
 const reviews = [
   {
     name: "Arjun Mehta",
-    role: "Film Director",
+    role: "FLIM Director",
     quote: "A rare location where every frame looks production-ready and premium.",
     image: "/images/gulab.jpg"
   },
@@ -19,7 +19,7 @@ const reviews = [
   },
   {
     name: "Kabir Anand",
-    role: "Wedding Filmmaker",
+    role: "Wedding FLIMmaker",
     quote: "Our clients were stunned by the natural texture and cinematic light.",
     image: "/images/heartview.jpeg"
   },

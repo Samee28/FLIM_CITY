@@ -22,33 +22,68 @@ const floatingParticles = Array.from({ length: 18 }).map((_, idx) => ({
 const heroStats = ["15+ Acres", "500+ Shoots", "4K Visual Zones"];
 
 export default function Hero() {
-  const [videoIndex, setVideoIndex] = useState(0);
+  const [activeLayer, setActiveLayer] = useState<"a" | "b">("a");
+  const [aVideoIndex, setAVideoIndex] = useState(0);
+  const [bVideoIndex, setBVideoIndex] = useState(1 % heroVideos.length);
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoARef = useRef<HTMLVideoElement>(null);
+  const videoBRef = useRef<HTMLVideoElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
   const sceneY = useTransform(scrollYProgress, [0, 1], [0, 130]);
   const contentY = useTransform(scrollYProgress, [0, 1], [0, 85]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setVideoIndex((prev) => (prev + 1) % heroVideos.length);
-    }, 7000);
-    return () => clearInterval(interval);
-  }, []);
+    const activeVideo = activeLayer === "a" ? videoARef.current : videoBRef.current;
+    const inactiveVideo = activeLayer === "a" ? videoBRef.current : videoARef.current;
+
+    if (inactiveVideo) {
+      inactiveVideo.pause();
+      inactiveVideo.currentTime = 0;
+    }
+
+    if (activeVideo) {
+      activeVideo.play().catch(() => undefined);
+    }
+  }, [activeLayer, aVideoIndex, bVideoIndex]);
+
+  const switchVideoLayer = () => {
+    if (activeLayer === "a") {
+      setActiveLayer("b");
+      setAVideoIndex((bVideoIndex + 1) % heroVideos.length);
+      return;
+    }
+
+    setActiveLayer("a");
+    setBVideoIndex((aVideoIndex + 1) % heroVideos.length);
+  };
 
   return (
-    <section ref={containerRef} className="scene-layer film-grain section-shell relative min-h-screen w-full overflow-hidden" id="home">
+    <section ref={containerRef} className="scene-layer flim-grain section-shell relative min-h-screen w-full overflow-hidden" id="home">
       <motion.div style={{ y: sceneY }} className="absolute inset-0">
         <motion.video
-          key={videoIndex}
+          ref={videoARef}
           initial={{ opacity: 0.2, scale: 1 }}
-          animate={{ opacity: 1, scale: 1.12, y: [-5, 5, -5] }}
-          transition={{ opacity: { duration: 1.2 }, scale: { duration: 15, ease: "linear" }, y: { duration: 11, repeat: Infinity, ease: "easeInOut" } }}
+          animate={{ opacity: activeLayer === "a" ? 1 : 0, scale: 1.12, y: [-5, 5, -5] }}
+          transition={{ opacity: { duration: 0.75 }, scale: { duration: 15, ease: "linear" }, y: { duration: 11, repeat: Infinity, ease: "easeInOut" } }}
           autoPlay
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
+          onEnded={switchVideoLayer}
           className="absolute inset-0 h-full w-full object-cover"
-          src={heroVideos[videoIndex]}
+          src={heroVideos[aVideoIndex]}
+        />
+        <motion.video
+          ref={videoBRef}
+          initial={{ opacity: 0.2, scale: 1 }}
+          animate={{ opacity: activeLayer === "b" ? 1 : 0, scale: 1.12, y: [-5, 5, -5] }}
+          transition={{ opacity: { duration: 0.75 }, scale: { duration: 15, ease: "linear" }, y: { duration: 11, repeat: Infinity, ease: "easeInOut" } }}
+          muted
+          playsInline
+          preload="auto"
+          onEnded={switchVideoLayer}
+          className="absolute inset-0 h-full w-full object-cover"
+          src={heroVideos[bVideoIndex]}
         />
       </motion.div>
 
@@ -69,23 +104,23 @@ export default function Hero() {
       ))}
 
       <motion.div style={{ y: contentY }} className="relative z-10 flex min-h-screen flex-col items-center justify-center px-6 text-center">
-        <span className="section-kicker">Premium Film Destination</span>
+        <span className="section-kicker">Premium FLIM Destination</span>
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.3, delay: 0.35, ease: "easeOut" }}
-          className="mt-6 font-display text-4xl font-bold leading-[1.08] tracking-[0.16em] text-white drop-shadow-[0_0_28px_rgba(212,175,55,0.3)] sm:text-6xl sm:tracking-[0.24em] md:text-7xl md:tracking-[0.3em]"
+          className="mt-6 font-display text-4xl font-bold leading-[1.08] tracking-[0.12em] text-white drop-shadow-[0_0_28px_rgba(212,175,55,0.3)] sm:text-6xl sm:tracking-[0.24em] md:text-7xl md:tracking-[0.3em]"
         >
           GULAB SINGH
           <br />
-          FILM CITY
+          FLIM CITY
         </motion.h1>
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.9, ease: "easeOut" }}
-          className="mt-6 max-w-2xl text-base font-light tracking-[0.14em] text-[#f1faee]/95 sm:mt-7 sm:text-xl sm:tracking-[0.24em]"
+          className="mt-6 max-w-2xl text-sm font-light tracking-[0.1em] text-[#f1faee]/95 sm:mt-7 sm:text-xl sm:tracking-[0.24em]"
         >
           Where Cinema Meets Nature
         </motion.p>
@@ -114,11 +149,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.4, ease: "easeOut" }}
-          className="mt-10 flex w-full max-w-md flex-col gap-4 sm:mt-12 sm:max-w-none sm:flex-row sm:gap-6"
+          className="mt-10 flex w-full max-w-md flex-col gap-3 sm:mt-12 sm:max-w-none sm:flex-row sm:gap-6"
         >
           <Link
             href="#locations"
-            className="cta-gold group gap-2 px-7 py-3.5 text-xs sm:px-9 sm:py-4 sm:text-sm sm:tracking-[0.16em]"
+            className="cta-gold group gap-2 px-6 py-3 text-[11px] sm:px-9 sm:py-4 sm:text-sm sm:tracking-[0.16em]"
           >
             Explore Locations
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -126,7 +161,7 @@ export default function Hero() {
           <Link
             href="https://youtube.com/@gulabsinghagriform4576"
             target="_blank"
-            className="cta-ghost group gap-2 px-7 py-3.5 text-xs sm:px-9 sm:py-4 sm:text-sm sm:tracking-[0.16em]"
+            className="cta-ghost group gap-2 px-6 py-3 text-[11px] sm:px-9 sm:py-4 sm:text-sm sm:tracking-[0.16em]"
           >
             <PlayCircle className="h-4 w-4" />
             See Real Videos
@@ -143,7 +178,9 @@ export default function Hero() {
         {heroVideos.map((_, idx) => (
           <span
             key={`hero-dot-${idx}`}
-            className={`h-1.5 rounded-full transition-all duration-500 ${idx === videoIndex ? "w-8 bg-[#D4AF37]" : "w-3 bg-white/45"}`}
+            className={`h-1.5 rounded-full transition-all duration-500 ${
+              idx === (activeLayer === "a" ? aVideoIndex : bVideoIndex) ? "w-8 bg-[#D4AF37]" : "w-3 bg-white/45"
+            }`}
           />
         ))}
       </motion.div>

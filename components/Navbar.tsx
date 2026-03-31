@@ -63,7 +63,7 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
+      <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4 lg:px-10">
         <Link href="#" className="group flex items-center gap-2 font-display text-lg tracking-[0.2em] text-[#D4AF37] sm:text-xl">
           <span className="h-2 w-2 rounded-full bg-[#D4AF37] shadow-[0_0_15px_rgba(212,175,55,0.9)] transition-transform duration-300 group-hover:scale-125" />
           GSFC
@@ -94,7 +94,7 @@ export default function Navbar() {
         </div>
 
         <button
-          className="rounded-full border border-[#D4AF37]/30 bg-black/30 p-2 md:hidden"
+          className="rounded-full border border-[#D4AF37]/35 bg-black/35 p-2.5 backdrop-blur md:hidden"
           onClick={() => setOpen((prev) => !prev)}
           aria-label="Toggle menu"
         >
@@ -108,15 +108,15 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="border-b border-[#D4AF37]/20 bg-[#040D0A]/95 px-6 pb-6 md:hidden"
+            className="border-b border-[#D4AF37]/20 bg-[#040D0A]/95 px-4 pb-5 sm:px-6 sm:pb-6 md:hidden"
           >
-            <div className="flex flex-col gap-3 rounded-2xl border border-[#2D6A4F]/60 bg-[#081C15]/60 p-4">
+            <div className="flex flex-col gap-2 rounded-2xl border border-[#2D6A4F]/60 bg-[#081C15]/70 p-3.5 backdrop-blur">
               {links.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className={`rounded-lg px-2 py-1.5 text-sm uppercase tracking-[0.14em] transition ${
+                  className={`rounded-lg px-3 py-2 text-sm uppercase tracking-[0.14em] transition ${
                     active === link.href
                       ? "bg-[#1B4332]/70 text-[#D4AF37]"
                       : "text-[#F1FAEE]/80 hover:bg-[#1B4332]/55 hover:text-[#D4AF37]"

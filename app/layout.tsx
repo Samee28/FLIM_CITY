@@ -9,10 +9,10 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 
 export const metadata: Metadata = {
-  title: "Gulab Singh Film City | Premium Shooting Location & Resort",
+  title: "Gulab Singh FLIM City | Premium Shooting Location & Resort",
   description:
-    "Gulab Singh Film City is a cinematic destination for film shoots, events, and agri-tourism experiences in India.",
-  metadataBase: new URL("https://gulabsinghfilmcity.com")
+    "Gulab Singh FLIM City is a cinematic destination for flim shoots, events, and agri-tourism experiences in India.",
+  metadataBase: new URL("https://gulabsinghflimcity.com")
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

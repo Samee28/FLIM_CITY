@@ -6,12 +6,12 @@ import { Expand, ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useRef, useState } from "react";
 
 const images = [
-  { id: 1, src: "/images/gulab.jpg", alt: "Gulab Singh Film City entrance", height: 420 },
+  { id: 1, src: "/images/gulab.jpg", alt: "Gulab Singh FLIM City entrance", height: 420 },
   { id: 2, src: "/images/couple.webp", alt: "Cinematic couple boat ride", height: 500 },
   { id: 3, src: "/images/heart.webp", alt: "Heart garden sculpture", height: 560 },
   { id: 4, src: "/images/light.webp", alt: "Bamboo light tunnel", height: 520 },
   { id: 5, src: "/images/lotus.webp", alt: "Lotus water park zone", height: 520 },
-  { id: 6, src: "/images/view.jpg", alt: "Film city scenic view", height: 450 },
+  { id: 6, src: "/images/view.jpg", alt: "FLIM city scenic view", height: 450 },
   { id: 7, src: "/images/masti.avif", alt: "Resort fun moments", height: 430 },
   { id: 8, src: "/images/best_view.jpeg", alt: "Best view landscape", height: 520 },
   { id: 9, src: "/images/caputer_moment.jpeg", alt: "Captured moment", height: 500 },

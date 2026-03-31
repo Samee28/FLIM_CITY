@@ -7,7 +7,7 @@ export default function Footer() {
         <div>
           <p className="font-display text-2xl tracking-[0.12em] text-[#D4AF37]">GSFC</p>
           <p className="mt-3 max-w-xs text-sm text-[#F1FAEE]/70">
-            Gulab Singh Film City is where cinema, celebrations, and nature come together in one iconic destination.
+            Gulab Singh FLIM City is where cinema, celebrations, and nature come together in one iconic destination.
           </p>
         </div>
 
@@ -24,7 +24,7 @@ export default function Footer() {
         <div>
           <h3 className="text-sm uppercase tracking-[0.14em] text-[#D4AF37]">Contact</h3>
           <p className="mt-3 text-sm text-[#F1FAEE]/78">Phone: +91 00000 00000</p>
-          <p className="text-sm text-[#F1FAEE]/78">Email: hello@gulabsinghfilmcity.com</p>
+          <p className="text-sm text-[#F1FAEE]/78">Email: hello@gulabsinghflimcity.com</p>
           <Link
             href="https://youtube.com/@gulabsinghagriform4576"
             target="_blank"
@@ -37,7 +37,7 @@ export default function Footer() {
       </div>
 
       <div className="mx-auto mt-10 max-w-7xl border-t border-[#D4AF37]/10 pt-5 text-xs text-[#F1FAEE]/55">
-        © {new Date().getFullYear()} Gulab Singh Film City. All rights reserved.
+        © {new Date().getFullYear()} Gulab Singh FLIM City. All rights reserved.
       </div>
     </footer>
   );

@@ -27,7 +27,7 @@ git commit -m "Initial commit"
 
 ### 2. Push to GitHub
 ```bash
-git remote add origin https://github.com/YOUR_USERNAME/gulab-singh-film-city.git
+git remote add origin https://github.com/YOUR_USERNAME/gulab-singh-flim-city.git
 git branch -M main
 git push -u origin main
 ```
@@ -57,7 +57,7 @@ vercel --prod
 ## After Deployment
 
 You'll receive:
-- ✅ Live URL: `https://gulab-singh-film-city.vercel.app`
+- ✅ Live URL: `https://gulab-singh-flim-city.vercel.app`
 - ✅ Production deployment link
 - ✅ Automatic preview deployments on future commits
 

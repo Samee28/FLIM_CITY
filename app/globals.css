@@ -62,7 +62,7 @@ main {
   color: #f1faee;
 }
 
-.film-grain::before {
+.flim-grain::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -321,6 +321,33 @@ main {
 
 .gentle-glow {
   animation: pulseGlow 6.5s ease-in-out infinite;
+}
+
+@media (max-width: 640px) {
+  .scene-layer,
+  .section-shell {
+    border-radius: 1.35rem;
+  }
+
+  .section-shell {
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.28);
+  }
+
+  .section-kicker {
+    letter-spacing: 0.12em;
+    font-size: 0.62rem;
+    padding: 0.35rem 0.75rem;
+  }
+
+  .section-heading {
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .cta-gold,
+  .cta-ghost {
+    letter-spacing: 0.1em;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

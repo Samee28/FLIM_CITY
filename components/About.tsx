@@ -106,18 +106,18 @@ export default function About() {
         viewport={{ once: true, amount: 0.35 }}
         transition={{ duration: 1 }}
       >
-        <span className="section-kicker">About Film City</span>
+        <span className="section-kicker">About FLIM City</span>
         <h2 className="section-heading">
           A World Built for <span className="accent">Cinema</span>
         </h2>
         <p className="section-subtext text-lg">
-          Gulab Singh Film City is a handcrafted destination where dramatic cinematic spaces and serene natural
+          Gulab Singh FLIM City is a handcrafted destination where dramatic cinematic spaces and serene natural
           landscapes meet in one expansive environment. From lush gardens and forest edges to water-side frames,
           every corner is designed to tell powerful visual stories.
         </p>
         <p className="mt-5 text-lg leading-relaxed text-[#F1FAEE]/85">
           Production houses, directors, photographers, and event creators choose this destination for its versatility,
-          controlled access, and rich atmosphere. It supports film shoots, television productions, ad campaigns,
+          controlled access, and rich atmosphere. It supports flim shoots, television productions, ad campaigns,
           weddings, and immersive cultural celebrations.
         </p>
         <p className="mt-5 text-lg leading-relaxed text-[#F1FAEE]/85">
