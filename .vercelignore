@@ -1,0 +1,14 @@
+# Vercel Ignore Rules
+# Files that should NOT be deployed to Vercel
+
+.DS_Store
+.next
+out/
+node_modules/
+npm-debug.log
+yarn-debug.log
+pnpm-debug.log
+.env
+.env*.local
+README.md
+VERCEL_DEPLOYMENT.md
