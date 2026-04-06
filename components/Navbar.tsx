@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import BrandMark from "@/components/BrandMark";
 
 const links = [
   { label: "About", href: "#about" },
@@ -64,10 +65,7 @@ export default function Navbar() {
       }`}
     >
       <nav className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4 lg:px-10">
-        <Link href="#" className="group flex items-center gap-2 font-display text-lg tracking-[0.2em] text-[#D4AF37] sm:text-xl">
-          <span className="h-2 w-2 rounded-full bg-[#D4AF37] shadow-[0_0_15px_rgba(212,175,55,0.9)] transition-transform duration-300 group-hover:scale-125" />
-          GSFC
-        </Link>
+        <BrandMark compact href="#" />
 
         <div className="hidden items-center gap-2 rounded-full border border-[#2D6A4F]/55 bg-black/25 p-2 backdrop-blur md:flex">
           {links.map((link) => (

@@ -1,6 +1,7 @@
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Locations from "@/components/Locations";
+import LatestShoot from "@/components/LatestShoot";
 import Gallery from "@/components/Gallery";
 import WaterActivities from "@/components/WaterActivities";
 import Services from "@/components/Services";
@@ -15,6 +16,7 @@ export default function Home() {
       <Hero />
       <About />
       <Locations />
+      <LatestShoot />
       <Gallery />
       <WaterActivities />
       <Services />

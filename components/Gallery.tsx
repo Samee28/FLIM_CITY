@@ -26,7 +26,11 @@ const images = [
   { id: 18, src: "/images/play_ground.jpeg", alt: "Play ground", height: 470 },
   { id: 19, src: "/images/playing.jpeg", alt: "Playing area", height: 500 },
   { id: 20, src: "/images/playing_spot.jpeg", alt: "Playing spot", height: 530 },
-  { id: 21, src: "/images/END_THANK_YOU.jpeg", alt: "Thank you frame", height: 460 }
+  { id: 21, src: "/images/END_THANK_YOU.jpeg", alt: "Thank you frame", height: 460 },
+  { id: 22, src: "/latest_shoot/lat2.jpeg", alt: "Cute family celebration moment", height: 560, featured: true },
+  { id: 23, src: "/latest_shoot/lat3.jpeg", alt: "Beautiful red saree portrait", height: 620, featured: true },
+  { id: 24, src: "/latest_shoot/lat4.jpeg", alt: "Garden-side beauty portrait", height: 580, featured: true },
+  { id: 25, src: "/latest_shoot/lat5.jpeg", alt: "Captured latest fashion moment", height: 520, featured: true }
 ];
 
 const blurDataURL =
@@ -49,6 +53,9 @@ export default function Gallery() {
         <h2 className="section-heading">
           Captured <span className="accent">Moments</span>
         </h2>
+        <p className="section-subtext">
+          Cute, beautiful frames with water, garden pathways, and fresh latest-shoot highlights blended into the story.
+        </p>
       </motion.div>
 
       <div className="mt-10 columns-1 gap-4 space-y-4 md:mt-12 md:gap-5 md:space-y-5 md:columns-2 lg:columns-3">
@@ -65,8 +72,11 @@ export default function Gallery() {
               }`}
           >
             <motion.div
-              animate={{ scale: [1, 1.1, 1], y: [0, -8, 8, 0] }}
-              transition={{ duration: 16 + (index % 5), repeat: Infinity, ease: "easeInOut" }}
+              animate={{
+                scale: image.featured ? [1, 1.06, 1] : [1, 1.1, 1],
+                y: image.featured ? [0, -6, 6, 0] : [0, -8, 8, 0],
+              }}
+              transition={{ duration: (image.featured ? 18 : 16) + (index % 5), repeat: Infinity, ease: "easeInOut" }}
             >
               <Image
                 src={image.src}
@@ -80,7 +90,18 @@ export default function Gallery() {
               />
             </motion.div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10 opacity-90" />
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#D4AF37]/25 to-transparent opacity-0 transition duration-500 group-hover:opacity-100" />
+            <div
+              className={`absolute inset-0 opacity-0 transition duration-500 group-hover:opacity-100 ${
+                image.featured
+                  ? "bg-[linear-gradient(180deg,rgba(82,183,136,0.06),rgba(0,0,0,0.18)),radial-gradient(circle_at_top,rgba(255,215,140,0.34),transparent_42%),radial-gradient(circle_at_bottom,rgba(82,183,136,0.26),transparent_48%)]"
+                  : "bg-gradient-to-tr from-[#D4AF37]/25 to-transparent"
+              }`}
+            />
+            {image.featured && (
+              <div className="absolute left-4 top-4 rounded-full border border-white/15 bg-black/40 px-3 py-1.5 text-[10px] uppercase tracking-[0.28em] text-[#f1c453] backdrop-blur-md">
+                Latest
+              </div>
+            )}
             <div className="absolute inset-0 flex items-center justify-center opacity-0 transition group-hover:opacity-100">
               <span className="rounded-full bg-black/65 p-3">
                 <Expand className="h-5 w-5 text-[#D4AF37]" />

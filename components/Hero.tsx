@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 
 const heroVideos = [
+  "/latest_shoot/lat1.mp4",
   "/hero_section/h1.mp4",
   "/hero_section/h2.mp4",
   "/hero_section/h3.mp4",
@@ -25,6 +26,7 @@ export default function Hero() {
   const [activeLayer, setActiveLayer] = useState<"a" | "b">("a");
   const [aVideoIndex, setAVideoIndex] = useState(0);
   const [bVideoIndex, setBVideoIndex] = useState(1 % heroVideos.length);
+  const [isHeroHovered, setIsHeroHovered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const videoARef = useRef<HTMLVideoElement>(null);
   const videoBRef = useRef<HTMLVideoElement>(null);
@@ -41,10 +43,16 @@ export default function Hero() {
       inactiveVideo.currentTime = 0;
     }
 
-    if (activeVideo) {
+    if (activeVideo && isHeroHovered) {
       activeVideo.play().catch(() => undefined);
+      return;
     }
-  }, [activeLayer, aVideoIndex, bVideoIndex]);
+
+    if (activeVideo) {
+      activeVideo.pause();
+      activeVideo.currentTime = 0;
+    }
+  }, [activeLayer, aVideoIndex, bVideoIndex, isHeroHovered]);
 
   const switchVideoLayer = () => {
     if (activeLayer === "a") {
@@ -58,14 +66,19 @@ export default function Hero() {
   };
 
   return (
-    <section ref={containerRef} className="scene-layer flim-grain section-shell relative min-h-screen w-full overflow-hidden" id="home">
+    <section
+      ref={containerRef}
+      className="scene-layer flim-grain section-shell relative min-h-screen w-full overflow-hidden"
+      id="home"
+      onMouseEnter={() => setIsHeroHovered(true)}
+      onMouseLeave={() => setIsHeroHovered(false)}
+    >
       <motion.div style={{ y: sceneY }} className="absolute inset-0">
         <motion.video
           ref={videoARef}
           initial={{ opacity: 0.2, scale: 1 }}
           animate={{ opacity: activeLayer === "a" ? 1 : 0, scale: 1.12, y: [-5, 5, -5] }}
           transition={{ opacity: { duration: 0.75 }, scale: { duration: 15, ease: "linear" }, y: { duration: 11, repeat: Infinity, ease: "easeInOut" } }}
-          autoPlay
           muted
           playsInline
           preload="auto"
@@ -184,6 +197,10 @@ export default function Hero() {
           />
         ))}
       </motion.div>
+
+      <div className="absolute right-5 top-5 z-20 hidden rounded-full border border-white/10 bg-black/35 px-4 py-2 text-[10px] uppercase tracking-[0.28em] text-white/80 backdrop-blur md:block">
+        {isHeroHovered ? "Playing" : "Hover to play"}
+      </div>
 
       <motion.div
         initial={{ opacity: 0 }}

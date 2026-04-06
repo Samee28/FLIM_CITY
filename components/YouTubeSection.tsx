@@ -4,16 +4,27 @@ import Link from "next/link";
 import Image from "next/image";
 import { Play, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 
 const channelUrl = "https://youtube.com/@gulabsinghagriform4576";
 
-const showcaseVideos = [
+type ShowcaseVideo = {
+  id: string;
+  title: string;
+  subtitle: string;
+  image: string;
+  localVideo?: string;
+  url: string;
+  bookingLabel: string;
+};
+
+const showcaseVideos: ShowcaseVideo[] = [
   {
     id: "2yZwoHQf3wQ",
     title: "Boat Ride - Pre-Wedding",
-    subtitle: "Forest river shoot - Gulab Singh FC",
+    subtitle: "Forest river shoot - Gulab Singh Film City",
     image: "/images/couple.webp",
+    localVideo: "/latest_shoot/lat1.mp4",
     url: "https://www.youtube.com/watch?v=2yZwoHQf3wQ",
     bookingLabel: "Book Slot"
   },
@@ -44,9 +55,15 @@ const showcaseVideos = [
 ];
 
 export default function YouTubeSection() {
+  const featurePreviewRef = useRef<HTMLVideoElement | null>(null);
   const [bookingOpen, setBookingOpen] = useState(false);
   const [selectedShort, setSelectedShort] = useState("General Visit");
   const [submitted, setSubmitted] = useState(false);
+  const [selectedFeatureIndex, setSelectedFeatureIndex] = useState(0);
+  const [isFeaturePlaying, setIsFeaturePlaying] = useState(false);
+  const [isFeaturePreviewPlaying, setIsFeaturePreviewPlaying] = useState(false);
+
+  const selectedFeature = showcaseVideos[selectedFeatureIndex];
 
   const openBooking = (title: string) => {
     setSelectedShort(title);
@@ -61,6 +78,31 @@ export default function YouTubeSection() {
       setBookingOpen(false);
       setSubmitted(false);
     }, 1700);
+  };
+
+  const playFeature = (index: number) => {
+    setSelectedFeatureIndex(index);
+    setIsFeaturePlaying(true);
+    setIsFeaturePreviewPlaying(false);
+  };
+
+  const playFeaturePreview = async () => {
+    if (!selectedFeature.localVideo || !featurePreviewRef.current || isFeaturePlaying) return;
+
+    try {
+      await featurePreviewRef.current.play();
+      setIsFeaturePreviewPlaying(true);
+    } catch {
+      setIsFeaturePreviewPlaying(false);
+    }
+  };
+
+  const stopFeaturePreview = () => {
+    if (!featurePreviewRef.current || isFeaturePlaying) return;
+
+    featurePreviewRef.current.pause();
+    featurePreviewRef.current.currentTime = 0;
+    setIsFeaturePreviewPlaying(false);
   };
 
   return (
@@ -78,101 +120,132 @@ export default function YouTubeSection() {
           </h2>
         </motion.div>
 
-        <div className="mt-10 overflow-hidden rounded-2xl border border-[#D4AF37]/30 shadow-[0_18px_45px_rgba(0,0,0,0.4)]">
-          <iframe
-            title="Gulab Singh FLIM City Channel"
-            src={`https://www.youtube-nocookie.com/embed/${showcaseVideos[0].id}?rel=0&modestbranding=1`}
-            className="h-[420px] w-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            loading="lazy"
-            referrerPolicy="strict-origin-when-cross-origin"
-            allowFullScreen
-          />
+        <div className="mt-10 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+          <motion.div
+            layout
+            className="luxe-card relative overflow-hidden rounded-[30px] border border-[#D4AF37]/30"
+            onMouseEnter={playFeaturePreview}
+            onMouseLeave={stopFeaturePreview}
+          >
+            <div className="absolute inset-0">
+              {selectedFeature.localVideo ? (
+                <video
+                  ref={featurePreviewRef}
+                  src={selectedFeature.localVideo}
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  poster={selectedFeature.image}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <Image
+                  src={selectedFeature.image}
+                  alt={selectedFeature.title}
+                  fill
+                  unoptimized
+                  className="object-cover"
+                />
+              )}
+              <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(4,13,10,0.18),rgba(4,13,10,0.78)),radial-gradient(circle_at_top_right,rgba(212,175,55,0.28),transparent_32%)]" />
+            </div>
+
+            {isFeaturePlaying ? (
+              <iframe
+                key={selectedFeature.id}
+                title={selectedFeature.title}
+                src={`https://www.youtube-nocookie.com/embed/${selectedFeature.id}?autoplay=1&rel=0&modestbranding=1`}
+                className="relative z-10 h-[320px] w-full sm:h-[420px] xl:h-[500px]"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
+            ) : (
+              <div className="relative z-10 flex h-[320px] flex-col justify-end p-6 sm:h-[420px] sm:p-8 xl:h-[500px]">
+                <div className="max-w-xl rounded-[28px] border border-white/10 bg-black/30 p-6 backdrop-blur-md">
+                  <p className="text-xs uppercase tracking-[0.34em] text-[#F1C453]">Featured Video</p>
+                  <h3 className="mt-4 font-display text-3xl text-white sm:text-5xl">{selectedFeature.title}</h3>
+                  <p className="mt-4 max-w-lg text-sm leading-6 text-[#F1FAEE]/80 sm:text-base">
+                    {selectedFeature.subtitle}
+                  </p>
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    <button
+                      type="button"
+                      onClick={() => playFeature(selectedFeatureIndex)}
+                      className="cta-gold px-6 py-3 text-xs sm:text-sm"
+                    >
+                      Play This Video
+                    </button>
+                    <Link
+                      href={selectedFeature.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="cta-ghost px-6 py-3 text-xs sm:text-sm"
+                    >
+                      Open on YouTube
+                    </Link>
+                  </div>
+                  {selectedFeature.localVideo && (
+                    <p className="mt-4 text-xs uppercase tracking-[0.28em] text-white/65">
+                      {isFeaturePreviewPlaying ? "Preview playing on hover" : "Hover on wallpaper to preview"}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+          </motion.div>
+
+          <div className="grid gap-4">
+            {showcaseVideos.map((video, index) => {
+              const isActive = selectedFeatureIndex === index;
+
+              return (
+                <motion.button
+                  key={`${video.id}-${video.title}-feature`}
+                  type="button"
+                  onClick={() => playFeature(index)}
+                  whileHover={{ y: -4 }}
+                  className={`luxe-card group relative overflow-hidden rounded-[24px] border p-3 text-left transition ${
+                    isActive ? "border-[#D4AF37]/55 shadow-[0_0_28px_rgba(212,175,55,0.16)]" : "border-white/8"
+                  }`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="relative h-24 w-28 flex-shrink-0 overflow-hidden rounded-[18px] sm:h-28 sm:w-36">
+                      <Image
+                        src={video.image}
+                        alt={video.title}
+                        fill
+                        unoptimized
+                        className="object-cover transition duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-transparent to-black/20" />
+                      <span className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-[#D4AF37]/92">
+                        <Play className="h-4 w-4 fill-black text-black" />
+                      </span>
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[10px] uppercase tracking-[0.28em] text-[#F1C453]">
+                        {isActive ? "Now Selected" : "Click to Play"}
+                      </p>
+                      <h3 className="mt-2 font-display text-xl leading-tight text-white sm:text-2xl">{video.title}</h3>
+                      <p className="mt-2 text-sm text-[#B7C9B5]">{video.subtitle}</p>
+                    </div>
+                  </div>
+                </motion.button>
+              );
+            })}
+          </div>
         </div>
+
         <p className="mt-3 text-sm text-[#B7C9B5]">
           If video does not load, open directly:
           <Link href={channelUrl} target="_blank" className="ml-2 text-[#F1C453] underline underline-offset-4">
             YouTube Channel
           </Link>
         </p>
-
-        <p className="mt-12 text-sm uppercase tracking-[0.22em] text-[#D4AF37]/90">YouTube Shorts</p>
-        <p className="mt-2 text-sm text-[#B7C9B5]">Choose any short and use Reserve Your Slot or Book Slot.</p>
-
-        <div className="mt-5 space-y-5">
-          {showcaseVideos.map((video) => (
-            <motion.article
-              key={`${video.id}-${video.title}`}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              whileHover={{ y: -6 }}
-              className="group luxe-card rounded-[22px] p-4 sm:p-5"
-            >
-              <div className="flex items-center gap-4 sm:gap-6">
-                <Link
-                  href={video.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="relative block w-[42%] min-w-[130px] max-w-[260px] flex-shrink-0 overflow-hidden rounded-2xl"
-                >
-                  <motion.div
-                    animate={{ scale: [1, 1.08, 1], x: [0, -3, 0], y: [0, -4, 0] }}
-                    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-                    className="relative h-[170px] w-full sm:h-[190px]"
-                  >
-                    <Image
-                      src={video.image}
-                      alt={video.title}
-                      fill
-                      unoptimized
-                      sizes="(max-width: 640px) 42vw, 260px"
-                      className="object-cover transition duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-transparent to-black/25" />
-                    <span className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-[#D4AF37]/90 shadow-[0_0_22px_rgba(212,175,55,0.45)]">
-                      <Play className="h-5 w-5 fill-black text-black" />
-                    </span>
-                  </motion.div>
-                </Link>
-
-                <div className="min-w-0 flex-1 pr-1">
-                  <h3 className="font-display text-[clamp(1.5rem,2.8vw,2.2rem)] leading-tight text-[#F1FAEE]">
-                    {video.title}
-                  </h3>
-                  <p className="mt-2 text-base sm:text-lg text-[#B7C9B5]">{video.subtitle}</p>
-                  <div className="mt-4 flex flex-wrap gap-3">
-                    <button
-                      type="button"
-                      onClick={() => openBooking(video.title)}
-                      className="cta-gold px-5 py-2 text-xs"
-                    >
-                      {video.bookingLabel}
-                    </button>
-                    <Link
-                      href={video.url}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="cta-ghost px-5 py-2 text-xs"
-                    >
-                      Watch Short
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </motion.article>
-          ))}
-        </div>
-
-        <Link
-          href={channelUrl}
-          target="_blank"
-          className="cta-ghost mt-10 inline-flex items-center gap-3 px-10 py-4 text-[1.05rem] tracking-[0.18em] text-[#D4AF37] transition hover:bg-[#D4AF37] hover:text-black"
-        >
-          <Play className="h-5 w-5 fill-[#D4AF37] text-[#D4AF37]" />
-          Visit Our Channel
-        </Link>
       </div>
 
       <AnimatePresence>

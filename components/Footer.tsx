@@ -1,13 +1,14 @@
 import Link from "next/link";
+import BrandMark from "@/components/BrandMark";
 
 export default function Footer() {
   return (
     <footer className="mx-2 mb-2 rounded-[2rem] border border-[#D4AF37]/20 bg-[#040D0A]/85 px-6 py-12 lg:mx-4 lg:px-10">
       <div className="mx-auto grid max-w-7xl gap-8 md:grid-cols-3">
         <div>
-          <p className="font-display text-2xl tracking-[0.12em] text-[#D4AF37]">GSFC</p>
+          <BrandMark href="#" />
           <p className="mt-3 max-w-xs text-sm text-[#F1FAEE]/70">
-            Gulab Singh FLIM City is where cinema, celebrations, and nature come together in one iconic destination.
+            Gulab Singh Film City is where cinema, celebrations, and nature come together in one iconic destination.
           </p>
         </div>
 
@@ -37,7 +38,7 @@ export default function Footer() {
       </div>
 
       <div className="mx-auto mt-10 max-w-7xl border-t border-[#D4AF37]/10 pt-5 text-xs text-[#F1FAEE]/55">
-        © {new Date().getFullYear()} Gulab Singh FLIM City. All rights reserved.
+        © {new Date().getFullYear()} Gulab Singh Film City. All rights reserved.
       </div>
     </footer>
   );
