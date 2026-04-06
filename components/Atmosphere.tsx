@@ -16,21 +16,21 @@ const particles = [
 export default function Atmosphere() {
   return (
     <div className="pointer-events-none fixed inset-0 z-[1] overflow-hidden" aria-hidden>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(212,175,55,0.16),transparent_58%),radial-gradient(circle_at_80%_18%,rgba(82,183,136,0.16),transparent_40%),linear-gradient(180deg,rgba(4,13,10,0.1),rgba(4,13,10,0.45)_72%,rgba(4,13,10,0.92))]" />
-      <div className="absolute inset-x-0 bottom-0 h-[34vh] bg-[radial-gradient(ellipse_at_bottom,rgba(27,67,50,0.16),transparent_68%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_14%,rgba(212,175,55,0.12),transparent_38%),radial-gradient(circle_at_84%_20%,rgba(255,255,255,0.06),transparent_34%),linear-gradient(180deg,rgba(2,6,10,0.08),rgba(2,6,10,0.66)_70%,rgba(1,3,6,0.95))]" />
+      <div className="absolute inset-x-0 bottom-0 h-[30vh] bg-[radial-gradient(ellipse_at_bottom,rgba(255,255,255,0.06),transparent_72%)]" />
 
       {particles.map((dot) => (
         <motion.span
           key={dot.left}
           initial={{ y: "110vh", opacity: 0 }}
-          animate={{ y: "-20vh", opacity: [0, 0.85, 0] }}
+          animate={{ y: "-20vh", opacity: [0, 0.52, 0] }}
           transition={{
             duration: dot.duration,
             repeat: Infinity,
             delay: dot.delay,
             ease: "linear"
           }}
-          className="absolute rounded-full bg-[#D4AF37]/70 blur-[0.5px]"
+          className="absolute rounded-full bg-[#f1c453]/60 blur-[0.5px]"
           style={{ left: dot.left, width: dot.size, height: dot.size }}
         />
       ))}
