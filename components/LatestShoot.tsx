@@ -36,35 +36,21 @@ const shootImages = [
   },
 ];
 
-const floatingBotanicals = [
-  {
-    src: "/images/lotus.webp",
-    alt: "Lotus bloom accent",
-    className: "left-[-3%] top-[18%] h-28 w-28 sm:h-36 sm:w-36",
-    opacity: "opacity-[0.16]",
-    duration: 15,
-  },
-  {
-    src: "/images/gulab.jpg",
-    alt: "Rose floral accent",
-    className: "right-[6%] top-[12%] h-24 w-24 sm:h-32 sm:w-32",
-    opacity: "opacity-[0.14]",
-    duration: 18,
-  },
-  {
-    src: "/images/heart.webp",
-    alt: "Garden sculpture accent",
-    className: "left-[3%] bottom-[14%] h-32 w-32 sm:h-40 sm:w-40",
-    opacity: "opacity-[0.10]",
-    duration: 20,
-  },
-  {
-    src: "/images/garden.jpeg",
-    alt: "Leafy garden accent",
-    className: "right-[-4%] bottom-[10%] h-36 w-28 sm:h-48 sm:w-36",
-    opacity: "opacity-[0.12]",
-    duration: 22,
-  },
+const floatingLeaves = [
+  { left: "8%", top: "18%", delay: 0, duration: 18, rotate: -16 },
+  { left: "24%", top: "62%", delay: 4, duration: 22, rotate: 10 },
+  { left: "46%", top: "22%", delay: 2, duration: 20, rotate: -8 },
+  { left: "61%", top: "74%", delay: 1, duration: 24, rotate: 18 },
+  { left: "78%", top: "26%", delay: 5, duration: 19, rotate: -14 },
+  { left: "90%", top: "68%", delay: 3, duration: 23, rotate: 12 },
+];
+
+const glowDots = [
+  { left: "12%", top: "32%", delay: 0, duration: 8, size: 8 },
+  { left: "34%", top: "18%", delay: 2, duration: 10, size: 10 },
+  { left: "58%", top: "54%", delay: 1, duration: 9, size: 7 },
+  { left: "83%", top: "22%", delay: 4, duration: 11, size: 9 },
+  { left: "76%", top: "78%", delay: 3, duration: 10, size: 12 },
 ];
 
 export default function LatestShoot() {
@@ -72,6 +58,8 @@ export default function LatestShoot() {
   const wideVideoRef = useRef<HTMLVideoElement | null>(null);
   const supportVideoRef = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [viewMode, setViewMode] = useState<"horizontal" | "vertical">("horizontal");
+  const featuredPreview = "/latest_shoot/lat5.jpeg";
 
   const playVideo = async () => {
     try {
@@ -134,20 +122,36 @@ export default function LatestShoot() {
         />
         <div className="absolute left-[-8%] top-[8%] h-56 w-56 rounded-full bg-[#d4af37]/10 blur-3xl" />
         <div className="absolute bottom-[-6%] right-[4%] h-72 w-72 rounded-full bg-[#52b788]/12 blur-3xl" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(212,175,55,0.14),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(82,183,136,0.16),transparent_32%),linear-gradient(135deg,rgba(4,13,10,0.34),rgba(4,13,10,0.8))]" />
-        {floatingBotanicals.map((item, index) => (
+        <div className="absolute -left-10 bottom-[-6%] h-[18rem] w-[8rem] rounded-[55%_45%_35%_65%] bg-[linear-gradient(180deg,rgba(82,183,136,0.26),rgba(27,67,50,0.06))] blur-[1px] sm:h-[24rem] sm:w-[10rem]" />
+        <div className="absolute -left-2 bottom-[-10%] h-[15rem] w-[6rem] rounded-[55%_45%_35%_65%] bg-[linear-gradient(180deg,rgba(82,183,136,0.18),rgba(27,67,50,0.02))] blur-[1px] sm:h-[20rem] sm:w-[8rem]" />
+        <div className="absolute right-[-2%] bottom-[-7%] h-[16rem] w-[7rem] rounded-[40%_60%_60%_40%] bg-[linear-gradient(180deg,rgba(82,183,136,0.28),rgba(27,67,50,0.04))] blur-[1px] sm:h-[22rem] sm:w-[10rem]" />
+        <div className="absolute right-[6%] bottom-[-11%] h-[13rem] w-[5rem] rounded-[40%_60%_60%_40%] bg-[linear-gradient(180deg,rgba(82,183,136,0.18),rgba(27,67,50,0.02))] blur-[1px] sm:h-[18rem] sm:w-[7rem]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(212,175,55,0.14),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(82,183,136,0.16),transparent_32%),linear-gradient(135deg,rgba(4,13,10,0.18),rgba(4,13,10,0.78))]" />
+
+        {glowDots.map((dot) => (
+          <motion.span
+            key={`${dot.left}-${dot.top}`}
+            className="absolute rounded-full bg-[#d9f7cc]/70 blur-[2px]"
+            style={{ left: dot.left, top: dot.top, width: dot.size, height: dot.size }}
+            animate={{ opacity: [0.15, 0.8, 0.2], scale: [0.85, 1.15, 0.9] }}
+            transition={{ duration: dot.duration, delay: dot.delay, repeat: Infinity, ease: "easeInOut" }}
+          />
+        ))}
+
+        {floatingLeaves.map((leaf) => (
           <motion.div
-            key={item.src}
+            key={`${leaf.left}-${leaf.top}`}
             animate={{
-              y: [0, -18, 0],
-              x: index % 2 === 0 ? [0, 10, 0] : [0, -10, 0],
-              rotate: index % 2 === 0 ? [0, 3, 0] : [0, -3, 0],
+              y: [0, -14, 0],
+              x: [0, 12, -6, 0],
+              rotate: [leaf.rotate, leaf.rotate + 4, leaf.rotate],
+              opacity: [0.18, 0.48, 0.22],
             }}
-            transition={{ duration: item.duration, repeat: Infinity, ease: "easeInOut" }}
-            className={`absolute ${item.className} ${item.opacity} overflow-hidden rounded-[28px] border border-white/8 blur-[1px]`}
+            transition={{ duration: leaf.duration, repeat: Infinity, delay: leaf.delay, ease: "easeInOut" }}
+            className="absolute h-5 w-9 rounded-[70%_30%_60%_40%] border border-[#a8dfb1]/45 bg-[#2d6a4f]/12"
+            style={{ left: leaf.left, top: leaf.top }}
           >
-            <Image src={item.src} alt={item.alt} fill unoptimized className="object-cover" />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,13,10,0.1),rgba(4,13,10,0.4))]" />
+            <span className="absolute left-1/2 top-[14%] h-[72%] w-px -translate-x-1/2 bg-[#a8dfb1]/35" />
           </motion.div>
         ))}
       </div>
@@ -195,19 +199,54 @@ export default function LatestShoot() {
             <Sparkles className="h-3.5 w-3.5" />
             Featured Reel
           </div>
+          <div className="absolute right-5 top-5 z-20 flex items-center gap-2 rounded-full border border-white/10 bg-black/35 p-1.5 backdrop-blur-md">
+            <button
+              type="button"
+              onClick={() => setViewMode("horizontal")}
+              className={`rounded-full px-3 py-1.5 text-[10px] uppercase tracking-[0.24em] transition ${
+                viewMode === "horizontal" ? "bg-[#d4af37] text-[#08110c]" : "text-white/72"
+              }`}
+            >
+              Horizontal
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("vertical")}
+              className={`rounded-full px-3 py-1.5 text-[10px] uppercase tracking-[0.24em] transition ${
+                viewMode === "vertical" ? "bg-[#d4af37] text-[#08110c]" : "text-white/72"
+              }`}
+            >
+              Vertical
+            </button>
+          </div>
 
           <div className="relative z-10 p-4 sm:p-6 xl:p-8">
             <div className="overflow-hidden rounded-[30px] border border-white/10 bg-[#08110c]/72 shadow-[0_30px_90px_rgba(0,0,0,0.42)]">
-              <div className="relative aspect-[16/10] w-full sm:aspect-[16/9]">
+              <div
+                className={`relative w-full overflow-hidden ${
+                  viewMode === "horizontal" ? "aspect-[16/10] sm:aspect-[16/9]" : "aspect-[9/14] sm:aspect-[9/13]"
+                }`}
+              >
                 {!isPlaying && (
                   <div className="pointer-events-none absolute inset-0 z-[1]">
                     <Image
-                      src="/latest_shoot/lat4.jpeg"
+                      src={featuredPreview}
                       alt="Wide video preview"
                       fill
                       unoptimized
-                      className="object-cover object-center"
+                      className={`${
+                        viewMode === "horizontal" ? "object-cover object-center" : "object-contain object-center scale-[0.94]"
+                      }`}
                     />
+                    {viewMode === "vertical" && (
+                      <Image
+                        src={featuredPreview}
+                        alt="Wide video preview glow"
+                        fill
+                        unoptimized
+                        className="object-cover object-center scale-110 opacity-35 blur-2xl"
+                      />
+                    )}
                   </div>
                 )}
                 <video
@@ -217,8 +256,10 @@ export default function LatestShoot() {
                   loop
                   playsInline
                   preload="metadata"
-                  poster="/latest_shoot/lat4.jpeg"
-                  className="h-full w-full object-cover object-center transition duration-700 group-hover:scale-[1.02]"
+                  poster={featuredPreview}
+                  className={`h-full w-full transition duration-700 group-hover:scale-[1.02] ${
+                    viewMode === "horizontal" ? "object-cover object-[50%_20%]" : "object-contain object-center"
+                  }`}
                 />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,13,10,0.1),rgba(4,13,10,0.45)),radial-gradient(circle_at_right,rgba(4,13,10,0),rgba(4,13,10,0.34)_62%)]" />
                 <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#040d0a] to-transparent" />
@@ -228,7 +269,11 @@ export default function LatestShoot() {
                 </div>
               </div>
 
-              <div className="grid gap-4 border-t border-white/10 bg-[linear-gradient(180deg,rgba(4,13,10,0.28),rgba(4,13,10,0.62))] p-4 lg:grid-cols-3 sm:p-5">
+              <div
+                className={`border-t border-white/10 bg-[linear-gradient(180deg,rgba(4,13,10,0.28),rgba(4,13,10,0.62))] p-4 sm:p-5 ${
+                  viewMode === "horizontal" ? "grid gap-4 lg:grid-cols-3" : "grid gap-4 sm:grid-cols-3"
+                }`}
+              >
                 <div className="relative overflow-hidden rounded-[24px] border border-white/12 bg-[#07110c]/90 p-2 shadow-[0_18px_40px_rgba(0,0,0,0.32)]">
                   <div className="relative overflow-hidden rounded-[18px]">
                     {!isPlaying && (
@@ -238,8 +283,19 @@ export default function LatestShoot() {
                           alt="Latest shoot poster preview"
                           fill
                           unoptimized
-                          className="object-cover object-center"
+                          className={`${
+                            viewMode === "horizontal" ? "object-cover object-center" : "object-contain object-center scale-[0.94]"
+                          }`}
                         />
+                        {viewMode === "vertical" && (
+                          <Image
+                            src="/latest_shoot/lat2.jpeg"
+                            alt="Latest shoot poster glow"
+                            fill
+                            unoptimized
+                            className="object-cover object-center scale-110 opacity-30 blur-2xl"
+                          />
+                        )}
                         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,13,10,0.04),rgba(4,13,10,0.35))]" />
                       </div>
                     )}
@@ -252,7 +308,11 @@ export default function LatestShoot() {
                       playsInline
                       preload="metadata"
                       poster="/latest_shoot/lat2.jpeg"
-                      className="aspect-[16/9] w-full object-cover object-center transition duration-700 group-hover:scale-[1.02]"
+                      className={`w-full transition duration-700 group-hover:scale-[1.02] ${
+                        viewMode === "horizontal"
+                          ? "aspect-[16/9] object-cover object-center"
+                          : "aspect-[9/16] object-contain object-center bg-[#07110c]"
+                      }`}
                     />
 
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(4,13,10,0.08),rgba(4,13,10,0.34)),radial-gradient(circle_at_center,transparent_30%,rgba(4,13,10,0.16)_75%)]" />
@@ -283,8 +343,19 @@ export default function LatestShoot() {
                           alt="Supporting visual preview"
                           fill
                           unoptimized
-                          className="object-cover object-center"
+                          className={`${
+                            viewMode === "horizontal" ? "object-cover object-center" : "object-contain object-center scale-[0.94]"
+                          }`}
                         />
+                        {viewMode === "vertical" && (
+                          <Image
+                            src="/images/garden.jpeg"
+                            alt="Supporting visual glow"
+                            fill
+                            unoptimized
+                            className="object-cover object-center scale-110 opacity-30 blur-2xl"
+                          />
+                        )}
                         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,13,10,0.08),rgba(4,13,10,0.35))]" />
                       </div>
                     )}
@@ -296,7 +367,11 @@ export default function LatestShoot() {
                       playsInline
                       preload="metadata"
                       poster="/images/garden.jpeg"
-                      className="aspect-[16/9] w-full object-cover object-center transition duration-700 group-hover:scale-[1.02]"
+                      className={`w-full transition duration-700 group-hover:scale-[1.02] ${
+                        viewMode === "horizontal"
+                          ? "aspect-[16/9] object-cover object-center"
+                          : "aspect-[9/16] object-contain object-center bg-[#07110c]"
+                      }`}
                     />
 
                     <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(4,13,10,0.08),rgba(4,13,10,0.34)),radial-gradient(circle_at_center,transparent_30%,rgba(4,13,10,0.16)_75%)]" />
@@ -307,14 +382,25 @@ export default function LatestShoot() {
                 </div>
 
                 <div className="relative overflow-hidden rounded-[24px] border border-white/12 bg-[#07110c]/90 p-2 shadow-[0_18px_40px_rgba(0,0,0,0.32)]">
-                  <div className="relative aspect-[16/9] overflow-hidden rounded-[18px]">
+                  <div className={`relative overflow-hidden rounded-[18px] ${viewMode === "horizontal" ? "aspect-[16/9]" : "aspect-[9/16]"}`}>
                     <Image
                       src="/images/garden.jpeg"
                       alt="Garden cinematic still"
                       fill
                       unoptimized
-                      className="object-cover transition duration-700 group-hover:scale-[1.02]"
+                      className={`transition duration-700 group-hover:scale-[1.02] ${
+                        viewMode === "horizontal" ? "object-cover object-center" : "object-contain object-center scale-[0.94]"
+                      }`}
                     />
+                    {viewMode === "vertical" && (
+                      <Image
+                        src="/images/garden.jpeg"
+                        alt="Garden cinematic glow"
+                        fill
+                        unoptimized
+                        className="object-cover object-center scale-110 opacity-30 blur-2xl"
+                      />
+                    )}
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(4,13,10,0.08),rgba(4,13,10,0.34))]" />
                     <div className="pointer-events-none absolute left-3 top-3 rounded-full border border-white/10 bg-black/35 px-3 py-1.5 text-[10px] uppercase tracking-[0.26em] text-[#f1c453] backdrop-blur-md">
                       Garden Mood
